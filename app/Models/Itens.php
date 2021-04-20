@@ -13,4 +13,9 @@ class Itens extends Model
         'name',
         'ativo',
     ];
+
+    public function lista()
+    {
+        return $this->belongsToMany(Lista::class);
+    }
 }

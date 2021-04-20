@@ -12,4 +12,9 @@ class Lista extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function item()
+    {
+        return $this->belongsToMany(Itens::class);
+    }
 }
