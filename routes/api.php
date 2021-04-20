@@ -20,8 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('itens')->group(function () {
-    Route::post("/create", [ItensController::class, 'store']);
-    Route::get("/show/{id}", [ItensController::class, 'show']);
-    Route::get("/show", [ItensController::class, 'index']);
-});
+// Route::middleware('auth:api')->resource('/itens', ItensController::class);
+Route::resource('itens', ItensController::class);

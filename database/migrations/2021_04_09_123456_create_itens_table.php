@@ -16,7 +16,7 @@ class CreateItensTable extends Migration
         Schema::create('itens', function (Blueprint $table) {
             $table->id();
             $table->string("name", 100);
-            $table->boolean("ativo")->default(0);
+            $table->boolean("ativo")->default(1);
             $table->timestamps();
         });
     }

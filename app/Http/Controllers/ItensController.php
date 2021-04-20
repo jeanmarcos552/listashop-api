@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Itens;
 use Illuminate\Http\Request;
+use Symfony\Component\Console\Input\Input;
 
 class ItensController extends Controller
 {
+    private $itensPerPage = 10;
     /**
      * Display a listing of the resource.
      *
@@ -14,20 +16,7 @@ class ItensController extends Controller
      */
     public function index()
     {
-        //
-        $itens = Itens::where('ativo', true)->get();
-        return $itens;
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-        //
+        return Itens::where('ativo', '=', true)->paginate($this->itensPerPage);
     }
 
     /**
@@ -38,9 +27,11 @@ class ItensController extends Controller
      */
     public function store(Request $request)
     {
-        return Itens::create([
-            'name' => $request->name,
+        $request->validate([
+            'name' => 'required',
         ]);
+
+        return Itens::create($request->all());
     }
 
     /**
@@ -49,22 +40,9 @@ class ItensController extends Controller
      * @param  \App\Models\Itens  $itens
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show($id)
     {
-        $itens = Itens::all();
-        return $itens;
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Itens  $itens
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Itens $itens)
-    {
-        //
+        return Itens::find($id);
     }
 
     /**
@@ -74,9 +52,11 @@ class ItensController extends Controller
      * @param  \App\Models\Itens  $itens
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Itens $itens)
+    public function update(Request $request, $id)
     {
-        //
+        $item = Itens::find($id);
+        $item->update($request->all());
+        return $item;
     }
 
     /**
@@ -85,8 +65,22 @@ class ItensController extends Controller
      * @param  \App\Models\Itens  $itens
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Itens $itens)
+    public function destroy($id)
     {
-        //
+        $item = Itens::find($id);
+        return $item->delete($id);
     }
+
+    // public function querySearch(Request $request)
+    // {
+    //     if ($request->get('name')) {
+    //         $q = Itens::where('name', 'like', '%'.$request->get('name').'%');
+    //     }
+
+    //     if ($request->get('ativo')) {
+    //         $q = Itens::where('ativo', '=', $request->get('ativo'));
+    //     }
+
+    //     return $q->paginate($this->itensPerPage);
+    // }
 }
