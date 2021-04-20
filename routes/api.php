@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ItensController;
+use App\Http\Controllers\AuthController;
 use App\Models\Itens;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -21,4 +22,20 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // Route::middleware('auth:api')->resource('/itens', ItensController::class);
-Route::resource('itens', ItensController::class);
+
+
+// Puplic routes
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+
+Route::get('itens', [ItensController::class, 'index']);
+Route::get('itens/{id}', [ItensController::class, 'show']);
+Route::get('itens/search/{name}', [ItensController::class, 'search']);
+
+// protect routes
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('itens', [ItensController::class, 'index']);
+    Route::put('itens/{id}', [ItensController::class, 'show']);
+    Route::delete('itens/{id}', [ItensController::class, 'search']);
+});
