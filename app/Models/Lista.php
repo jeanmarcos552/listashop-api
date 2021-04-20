@@ -15,6 +15,12 @@ class Lista extends Model
 
     public function item()
     {
-        return $this->belongsToMany(Itens::class);
+        return $this->belongsToMany(Itens::class, 'itenId');
     }
+
+    public function user()
+    {
+        return $this->belongsToMany(Itens::class, 'userId');
+    }
+
 }

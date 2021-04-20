@@ -28,14 +28,9 @@ class ListaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $fields = $request->validate([
             'name' => 'required',
         ]);
-
-        $user_id = auth()->user('email');
-        $user = User::find($user_id->id);
-
-        return $user;
     }
 
     /**

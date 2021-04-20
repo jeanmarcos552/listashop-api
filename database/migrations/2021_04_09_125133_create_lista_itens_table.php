@@ -14,8 +14,8 @@ class CreateListaItensTable extends Migration
     public function up()
     {
         Schema::create('lista_itens', function (Blueprint $table) {
-            $table->integer("listaId");
-            $table->integer("itemId");
+            $table->integer("listaId")->unsigned();
+            $table->integer("itemId")->unsigned();
 
             $table->foreign("itemId")->references("id")->on("itens");
             $table->foreign("listaId")->references("id")->on("listas");
