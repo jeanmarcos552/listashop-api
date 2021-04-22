@@ -16,8 +16,7 @@ class ListaController extends Controller
      */
     public function index()
     {
-        //
-        return Lista::all();
+        return Lista::with('user', 'itens')->get();
     }
 
     /**
@@ -28,9 +27,50 @@ class ListaController extends Controller
      */
     public function store(Request $request)
     {
-        $fields = $request->validate([
+        $request->validate([
             'name' => 'required',
         ]);
+
+        return Lista::create($request->all());
+    }
+
+
+    public function addItem(Request $request)
+    {
+        $inputs = $request->validate([
+            'lista' => 'required',
+            'itens' => 'required|array',
+            'user' => 'required',
+        ]);
+
+        $lista = Lista::find($inputs['lista']);
+
+        $itensId = [];
+        foreach ($inputs['itens'] as $id) {
+            if (!$lista->itens()->where('id', $id)->exists()) {
+                $itensId[] = $id;
+            }
+        }
+
+        if (!empty($itensId)) {
+            $lista->itens()->attach($itensId);
+
+            if (!$lista->user()->where('id', $inputs['user'])->exists()) {
+                $lista->user()->attach($inputs['user']);
+            }
+
+            $output = $lista;
+            $output['user'] = $lista->user;
+            $output['itens'] = $lista->itens;
+            return $output;
+        } else {
+            return response(
+                [
+                    'message' => 'Os itens informados, já estão inseridos na lista!'
+                ],
+                401
+            );
+        }
     }
 
     /**
@@ -41,7 +81,7 @@ class ListaController extends Controller
      */
     public function show($id)
     {
-        //
+        return Lista::with('user', 'itens')->where('id', $id)->get();
     }
 
     /**
@@ -53,7 +93,9 @@ class ListaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $item = Lista::find($id);
+        $item->update($request->all());
+        return $item;
     }
 
     /**
@@ -64,6 +106,7 @@ class ListaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $item = Lista::find($id);
+        return $item->delete($id);
     }
 }

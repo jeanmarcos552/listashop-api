@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class lista_itens extends Model
+class RoleUser extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        
-    ];
+    protected $table = 'role_users';
+
+    
 }

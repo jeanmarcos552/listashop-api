@@ -13,14 +13,14 @@ class Lista extends Model
         'name',
     ];
 
-    public function item()
+    public function itens()
     {
-        return $this->belongsToMany(Itens::class, 'itenId');
+        return $this->belongsToMany(Itens::class, 'itens_listas');
     }
 
     public function user()
     {
-        return $this->belongsToMany(Itens::class, 'userId');
+        return $this->belongsToMany(User::class, 'lista_users');
     }
-
+    
 }

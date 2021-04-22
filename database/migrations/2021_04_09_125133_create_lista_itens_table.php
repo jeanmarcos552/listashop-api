@@ -13,12 +13,12 @@ class CreateListaItensTable extends Migration
      */
     public function up()
     {
-        Schema::create('lista_itens', function (Blueprint $table) {
-            $table->integer("listaId")->unsigned();
-            $table->integer("itemId")->unsigned();
+        Schema::create('itens_listas', function (Blueprint $table) {
+            $table->bigInteger("lista_id")->unsigned();
+            $table->bigInteger("itens_id")->unsigned();
 
-            $table->foreign("itemId")->references("id")->on("itens");
-            $table->foreign("listaId")->references("id")->on("listas");
+            $table->foreign("itens_id")->references("id")->on("itens");
+            $table->foreign("lista_id")->references("id")->on("listas");
         });
     }
 

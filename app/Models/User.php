@@ -29,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        // 'password',
+        'password',
         'remember_token',
     ];
 
@@ -42,8 +42,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function lista()
-    {
-        return $this->belongsToMany(Lista::class);
+   
+    public function roles() {
+        return $this->belongsToMany(Role::class, 'role_users');
     }
 }

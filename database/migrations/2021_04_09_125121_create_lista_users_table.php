@@ -14,11 +14,11 @@ class CreateListaUsersTable extends Migration
     public function up()
     {
         Schema::create('lista_users', function (Blueprint $table) {
-            $table->integer("userId");
-            $table->integer("listaId");
+            $table->integer("user_id")->unsigned();
+            $table->integer("lista_id")->unsigned();
 
-            $table->foreign("userId")->references("id")->on("users");
-            $table->foreign("listaId")->references("id")->on("listas");
+            $table->foreign("user_id")->references("id")->on("users");
+            $table->foreign("lista_id")->references("id")->on("listas");
         });
     }
 
