@@ -18,6 +18,7 @@ class Lista extends Model
         return $this->belongsToMany(Itens::class, 'itens_listas')
         ->withPivot([
             'qty',
+            'value'
         ]);
     }
 

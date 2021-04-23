@@ -3,8 +3,8 @@
 use App\Http\Controllers\ItensController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ListaController;
-use App\Http\Controllers\RoleController;
-use App\Models\Itens;
+use App\Http\Controllers\ListaUserController;
+use App\Http\Controllers\ListaItensController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,9 +41,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::put('itens/{id}', [ItensController::class, 'update']);
     Route::delete('itens/{id}', [ItensController::class, 'destroy']);
 
+    // LISTA
     Route::post('lista', [ListaController::class, 'store']);
-    Route::post('addItem', [ListaController::class, 'addItem']);
-    Route::delete('removeItem/{id}', [ListaController::class, 'removeItem']);
+    Route::post('addItem', [ListaItensController::class, 'addItem']);
+    Route::delete('removeItem/{id}', [ListaItensController::class, 'removeItem']);
+    Route::post('addUserToList', [ListaUserController::class, 'addUserToList']);
     Route::put('lista/{id}', [ListaController::class, 'update']);
     Route::delete('lista/{id}', [ListaController::class, 'destroy']);
     Route::get('lista', [ListaController::class, 'index']);
