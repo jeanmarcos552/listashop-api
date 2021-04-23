@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lista;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ListaController extends Controller
@@ -14,7 +15,7 @@ class ListaController extends Controller
      */
     public function index()
     {
-        return Lista::with('user', 'itens')->get();
+        return User::find(auth()->user()->id)->lista()->with('user', 'itens')->get();
     }
 
     /**
@@ -29,7 +30,7 @@ class ListaController extends Controller
             'name' => 'required',
         ]);
         $lista = Lista::create($request->all());
-        
+
         // adicionar permisão a lista
         $lista->user()->attach(auth()->user()->id);
         return $lista;
