@@ -9,5 +9,8 @@ class ItensLista extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'qty',
+    ];
     protected $table = "itens_listas";
 }

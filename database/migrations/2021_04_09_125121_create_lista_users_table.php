@@ -17,8 +17,8 @@ class CreateListaUsersTable extends Migration
             $table->integer("user_id")->unsigned();
             $table->integer("lista_id")->unsigned();
 
-            $table->foreign("user_id")->references("id")->on("users");
-            $table->foreign("lista_id")->references("id")->on("listas");
+            $table->foreign("user_id")->references("id")->on("users")->delete("cascate");
+            $table->foreign("lista_id")->references("id")->on("listas")->delete("cascate");
         });
     }
 

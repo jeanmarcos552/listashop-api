@@ -16,9 +16,10 @@ class CreateListaItensTable extends Migration
         Schema::create('itens_listas', function (Blueprint $table) {
             $table->bigInteger("lista_id")->unsigned();
             $table->bigInteger("itens_id")->unsigned();
+            $table->integer("qty")->default(0);
 
-            $table->foreign("itens_id")->references("id")->on("itens");
-            $table->foreign("lista_id")->references("id")->on("listas");
+            $table->foreign("itens_id")->references("id")->on("itens")->delete("cascate");
+            $table->foreign("lista_id")->references("id")->on("listas")->delete("cascate");
         });
     }
 

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Itens;
+use App\Models\ItensLista;
 use App\Models\Lista;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ListaController extends Controller
 {
@@ -16,6 +18,7 @@ class ListaController extends Controller
      */
     public function index()
     {
+
         return Lista::with('user', 'itens')->get();
     }
 
@@ -46,14 +49,16 @@ class ListaController extends Controller
         $lista = Lista::find($inputs['lista']);
 
         $itensId = [];
-        foreach ($inputs['itens'] as $id) {
-            if (!$lista->itens()->where('id', $id)->exists()) {
-                $itensId[] = $id;
+        foreach ($inputs['itens'] as $item) {
+            if (!$lista->itens()->where('id', $item)->exists()) {
+                $itensId[] = $item;
             }
         }
 
         if (!empty($itensId)) {
-            $lista->itens()->attach($itensId);
+            foreach ($itensId as $item) {
+                $lista->itens()->attach($item['itens_id'], ['qty' => $item['qty']]);
+            }
 
             if (!$lista->user()->where('id', $inputs['user'])->exists()) {
                 $lista->user()->attach($inputs['user']);
@@ -71,6 +76,12 @@ class ListaController extends Controller
                 401
             );
         }
+    }
+
+    public function removeItem($id, Request $request) {
+        $lista = new ItensLista();
+        $item = $lista->where("itens_id", $id)->where("lista_id", $request->get('lista'));
+        return $item->delete();
     }
 
     /**

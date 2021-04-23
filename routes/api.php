@@ -28,24 +28,25 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
-Route::get('itens', [ItensController::class, 'index']);
-Route::get('itens/{id}', [ItensController::class, 'show']);
-Route::get('itens/search/{name}', [ItensController::class, 'search']);
 
-Route::get('lista', [ListaController::class, 'index']);
-Route::get('lista/{id}', [ListaController::class, 'show']);
-Route::get('lista/search/{name}', [ListaController::class, 'search']);
 
 // protect routes
-// Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [AuthController::class, 'logout']);
 
+    Route::get('itens', [ItensController::class, 'index']);
+    Route::get('itens/{id}', [ItensController::class, 'show']);
+    Route::get('itens/search/{name}', [ItensController::class, 'search']);
     Route::post('itens', [ItensController::class, 'store']);
     Route::put('itens/{id}', [ItensController::class, 'update']);
     Route::delete('itens/{id}', [ItensController::class, 'destroy']);
 
     Route::post('lista', [ListaController::class, 'store']);
     Route::post('addItem', [ListaController::class, 'addItem']);
+    Route::delete('removeItem/{id}', [ListaController::class, 'removeItem']);
     Route::put('lista/{id}', [ListaController::class, 'update']);
     Route::delete('lista/{id}', [ListaController::class, 'destroy']);
-// });
+    Route::get('lista', [ListaController::class, 'index']);
+    Route::get('lista/{id}', [ListaController::class, 'show']);
+    Route::get('lista/search/{name}', [ListaController::class, 'search']);
+});

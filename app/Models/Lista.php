@@ -15,12 +15,15 @@ class Lista extends Model
 
     public function itens()
     {
-        return $this->belongsToMany(Itens::class, 'itens_listas');
+        return $this->belongsToMany(Itens::class, 'itens_listas')
+        ->withPivot([
+            'qty',
+        ]);
     }
 
     public function user()
     {
         return $this->belongsToMany(User::class, 'lista_users');
     }
-    
+
 }
