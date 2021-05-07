@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 
 class ListaUserController extends Controller
 {
-    public function addUserToList(Request $request)
+    /**
+     * Adiciona usuários a lista
+     */
+    public function store(Request $request)
     {
         $inputs = $request->validate([
             'lista' => 'required',
@@ -15,6 +18,7 @@ class ListaUserController extends Controller
         ]);
 
         $lista = Lista::find($inputs['lista']);
+        return $lista->user()->get();
 
         if (!$lista->user()->where('id', $inputs['user'])->exists()) {
             $lista->user()->attach($inputs['user']);
@@ -22,5 +26,14 @@ class ListaUserController extends Controller
         } else {
             return response(["message" => "usuário já tem permisão para editar a lista"], 403);
         }
+    }
+
+    /**
+     * Remove usuario
+     */
+    public function destroy($id) {
+        $user = auth()->user()->id;
+        $lista = Lista::find($id);
+        return $lista->user()->detach($user);
     }
 }

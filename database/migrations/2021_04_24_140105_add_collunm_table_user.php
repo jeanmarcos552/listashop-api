@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AlterTableItensListaAddValue extends Migration
+class AddCollunmTableUser extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AlterTableItensListaAddValue extends Migration
      */
     public function up()
     {
-        Schema::table('itens_listas', function (Blueprint $table) {
-            $table->addColumn('float', 'value')->nullable(0)->default(0);
+        Schema::table('users', function (Blueprint $table) {
+            $table->addColumn('boolean', 'created')->nullable()->default(0);
         });
     }
 
@@ -25,8 +25,6 @@ class AlterTableItensListaAddValue extends Migration
      */
     public function down()
     {
-        Schema::table('itens_lista', function (Blueprint $table) {
-            $table->dropColumn('value');
-        });
+        //
     }
 }

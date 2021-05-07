@@ -15,7 +15,7 @@ class ListaController extends Controller
      */
     public function index()
     {
-        return User::find(auth()->user()->id)->lista()->with('user', 'itens')->get();
+        return User::find(auth()->user()->id)->lista()->with('user', 'itens')->paginate(10);
     }
 
     /**
