@@ -11,6 +11,8 @@ class ItensLista extends Model
 
     protected $fillable = [
         'qty',
+        'status',
+        'value'
     ];
     protected $table = "itens_listas";
 }

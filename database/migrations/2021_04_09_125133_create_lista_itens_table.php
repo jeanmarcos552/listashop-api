@@ -17,7 +17,10 @@ class CreateListaItensTable extends Migration
             $table->bigInteger("lista_id")->unsigned();
             $table->bigInteger("itens_id")->unsigned();
             $table->integer("qty")->default(0);
-
+            $table->float('value')->default(0);
+            $table->boolean('status')->default(0);
+            $table->timestamps();
+            
             $table->foreign("itens_id")->references("id")->on("itens")->delete("cascate");
             $table->foreign("lista_id")->references("id")->on("listas")->delete("cascate");
         });
