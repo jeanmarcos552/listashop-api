@@ -12,7 +12,8 @@ class Itens extends Model
     protected $fillable = [
         'name',
         'ativo',
-        'qty'
+        'qty',
+        'status'
     ];
 
     public function lista()

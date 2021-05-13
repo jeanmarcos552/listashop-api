@@ -15,6 +15,7 @@ class AlterTableItensListaAddValue extends Migration
     {
         Schema::table('itens_listas', function (Blueprint $table) {
             $table->addColumn('float', 'value')->nullable(0)->default(0);
+            $table->addColumn('boolean', 'status')->nullable(0)->default(0);
         });
     }
 
