@@ -69,4 +69,19 @@ class ItensController extends Controller
         $item = Itens::find($id);
         return $item->delete($id);
     }
+
+    public function search(Request $request)
+    {
+
+        $query = Itens::where('id', ">", "0");
+
+        $keys = $request->keys();
+        foreach ($keys as $key) {
+            $query->where(function ($q) use ($request, $key) {
+                return $q->where($key, 'iLIKE', "%{$request->query($key)}%");
+            });
+        }
+
+        return $query->get();
+    }
 }

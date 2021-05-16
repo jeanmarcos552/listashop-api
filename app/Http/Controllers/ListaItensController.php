@@ -65,14 +65,14 @@ class ListaItensController extends Controller
     {
         $inputs = $request->validate([
             'lista_id' => 'required',
-            'itens' => 'required|array',
             'itens_id' => 'required',
         ]);
 
         $lista = new ItensLista();
+
         $item = $lista
             ->where("itens_id", $inputs['itens_id'])
-            ->where("lista_id", $inputs['lista_id'])->update($inputs['itens']);
+            ->where("lista_id", $inputs['lista_id'])->update($request->all());
         return $item;
     }
 }

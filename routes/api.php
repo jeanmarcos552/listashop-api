@@ -36,10 +36,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('itens', [ItensController::class, 'index']);
     Route::get('itens/{id}', [ItensController::class, 'show']);
-    Route::get('itens/search/{name}', [ItensController::class, 'search']);
+    Route::get('search/itens', [ItensController::class, 'search']);
+
+
+
+
     Route::post('itens', [ItensController::class, 'store']);
     Route::put('itens/{id}', [ItensController::class, 'update']);
     Route::delete('itens/{id}', [ItensController::class, 'destroy']);
+    // Route::get('itens/search', [ItensController::class, 'searchs']);
 
     // LISTA
     Route::post('lista', [ListaController::class, 'store']);

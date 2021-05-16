@@ -44,7 +44,7 @@ class ListaController extends Controller
      */
     public function show($id)
     {
-        return Lista::with('user', 'itens')->where('id', $id)->get();
+        return Lista::with('user', 'itens')->where('id', $id)->get()[0];
     }
 
     /**
