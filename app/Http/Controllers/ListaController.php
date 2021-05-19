@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Itens;
+use App\Models\ItensLista;
 use App\Models\Lista;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,7 +17,8 @@ class ListaController extends Controller
      */
     public function index()
     {
-        return User::find(auth()->user()->id)->lista()->with('user', 'itens')->paginate(10);
+        return User::find(auth()->user()->id)
+            ->lista()->with('user', 'itens')->where("ativo", "=", true)->paginate(10);
     }
 
     /**
@@ -44,7 +47,10 @@ class ListaController extends Controller
      */
     public function show($id)
     {
-        return Lista::with('user', 'itens')->where('id', $id)->get()[0];
+        return Lista::with('user', 'itens')
+            ->where('id', $id)
+            ->where('ativo', true)
+            ->orderBy('name', 'DESC')->get();
     }
 
     /**
@@ -69,7 +75,18 @@ class ListaController extends Controller
      */
     public function destroy($id)
     {
-        $item = Lista::find($id);
-        return $item->delete($id);
+
+        $lista = Lista::with('user', 'itens')
+            ->where('id', $id)->get()[0];
+
+        // foreach ($lista['user'] as $user) :
+        //     $user_item = ItensLista::find($user->pivot->user_id);
+        //     echo $user_item;
+        //     // $user_item->delete($user_item);
+        // endforeach;
+
+
+        // $item = Lista::find($id);
+        // return $item->delete($id);
     }
 }
