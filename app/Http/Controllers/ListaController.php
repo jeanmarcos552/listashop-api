@@ -75,18 +75,21 @@ class ListaController extends Controller
      */
     public function destroy($id)
     {
+        $lista = Lista::find($id);
 
-        $lista = Lista::with('user', 'itens')
-            ->where('id', $id)->get()[0];
+        if ($lista) {
+            $listas = $lista->with('user', 'itens')->get()[0];
 
-        // foreach ($lista['user'] as $user) :
-        //     $user_item = ItensLista::find($user->pivot->user_id);
-        //     echo $user_item;
-        //     // $user_item->delete($user_item);
-        // endforeach;
+            if (count($listas->user) > 0) {
+                foreach ($listas->user as $user) {
+                    User::find($user->id)->lista()->detach();
+                }
+            }
 
+            $lista->itens()->detach();
+            return $lista->delete($id);
+        }
 
-        // $item = Lista::find($id);
-        // return $item->delete($id);
+        return ["code" => 403, "message" => "nenhuma lista encontrada"];
     }
 }
