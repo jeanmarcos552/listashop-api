@@ -28,6 +28,7 @@ class CreateItensTable extends Migration
      */
     public function down()
     {
+        Schema::dropIfExists('itens_listas');
         Schema::dropIfExists('itens');
     }
 }
