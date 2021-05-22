@@ -15,10 +15,8 @@ class ItensController extends Controller
      */
     public function index()
     {
-        $itens = Itens::where('ativo', '=', true)
+        return Itens::where('ativo', '=', true)
             ->paginate($this->itensPerPage);
-
-        return isset($itens[0]) ? $itens[0] : $itens;
     }
 
     /**
@@ -44,7 +42,8 @@ class ItensController extends Controller
      */
     public function show($id)
     {
-        return Itens::find($id);
+        $itens = Itens::find($id);
+        return isset($itens[0]) ? $itens[0] : $itens;
     }
 
     /**
