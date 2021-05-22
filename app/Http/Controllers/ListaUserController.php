@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lista;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ListaUserController extends Controller
@@ -18,7 +19,7 @@ class ListaUserController extends Controller
         ]);
 
         $lista = Lista::find($inputs['lista']);
-        return $lista->user()->get();
+
 
         if (!$lista->user()->where('id', $inputs['user'])->exists()) {
             $lista->user()->attach($inputs['user']);
@@ -31,9 +32,16 @@ class ListaUserController extends Controller
     /**
      * Remove usuario
      */
-    public function destroy($id) {
-        $user = auth()->user()->id;
+    public function destroy($id, Request $request) {
+
+
+        $inputs = $request->validate([
+            "user" => "required",
+        ]);
+
+        $user = User::find($inputs["user"]);
         $lista = Lista::find($id);
-        return $lista->user()->detach($user);
+        
+        return $lista->user()->detach($user->id);
     }
 }

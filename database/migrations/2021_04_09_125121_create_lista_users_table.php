@@ -16,6 +16,7 @@ class CreateListaUsersTable extends Migration
         Schema::create('lista_users', function (Blueprint $table) {
             $table->integer("user_id")->unsigned();
             $table->integer("lista_id")->unsigned();
+            $table->timestamps();
 
             $table->foreign("user_id")->references("id")->on("users")->delete("cascate");
             $table->foreign("lista_id")->references("id")->on("listas")->delete("cascate");
