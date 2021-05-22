@@ -44,14 +44,8 @@ class ListaItensController extends Controller
             $output['user'] = $lista->user;
             $output['itens'] = $lista->itens;
             return $output;
-        } else {
-            return response(
-                [
-                    'message' => 'Os itens informados, já estão inseridos na lista!'
-                ],
-                401
-            );
         }
+        return true;
     }
 
     public function removeItem(Request $request)
