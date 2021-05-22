@@ -17,13 +17,11 @@ class ListaController extends Controller
      */
     public function index()
     {
-        $lista =  User::find(auth()->user()->id)
+        return User::find(auth()->user()->id)
             ->lista()
             ->with('user', 'itens')
             ->where("ativo", "=", true)
             ->paginate(10);
-
-        return isset($lista[0]) ? $lista[0] : [];
     }
 
     /**

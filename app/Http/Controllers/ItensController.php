@@ -15,7 +15,10 @@ class ItensController extends Controller
      */
     public function index()
     {
-        return Itens::where('ativo', '=', true)->paginate($this->itensPerPage);
+        $itens = Itens::where('ativo', '=', true)
+            ->paginate($this->itensPerPage);
+
+        return isset($itens[0]) ? $itens[0] : $itens;
     }
 
     /**
