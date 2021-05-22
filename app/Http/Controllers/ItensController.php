@@ -42,8 +42,7 @@ class ItensController extends Controller
      */
     public function show($id)
     {
-        $itens = Itens::find($id);
-        return isset($itens[0]) ? $itens[0] : $itens;
+        return Itens::find($id);
     }
 
     /**
