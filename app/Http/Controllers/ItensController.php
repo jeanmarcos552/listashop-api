@@ -17,7 +17,6 @@ class ItensController extends Controller
     {
         return Itens::where('ativo', '=', true)
             ->paginate($this->itensPerPage)
-            ->orderBy('name', 'ASC')
             ->get();
     }
 
