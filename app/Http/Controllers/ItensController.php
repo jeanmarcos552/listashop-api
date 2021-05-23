@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ItensController extends Controller
 {
-    private $itensPerPage = 10;
+    private $itensPerPage = 100;
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +16,9 @@ class ItensController extends Controller
     public function index()
     {
         return Itens::where('ativo', '=', true)
-            ->paginate($this->itensPerPage);
+            ->paginate($this->itensPerPage)
+            ->orderBy('name', 'ASC')
+            ->get();
     }
 
     /**
