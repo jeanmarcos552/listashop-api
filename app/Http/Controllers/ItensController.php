@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ItensController extends Controller
 {
-    private $itensPerPage = 100;
+    private $itensPerPage = 50;
     /**
      * Display a listing of the resource.
      *
