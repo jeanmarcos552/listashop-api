@@ -50,6 +50,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('lista', [ListaController::class, 'store']);
     Route::post('addItem', [ListaItensController::class, 'addItem']);
     Route::post('removeItem', [ListaItensController::class, 'removeItem']);
+    Route::get('itensLista/{id}', [ListaItensController::class, 'showByStatus']);
     Route::post('updateItem', [ListaItensController::class, 'updateItem']);
     Route::post('addUserToList', [ListaUserController::class, 'store']);
     Route::post('removeUserToList/{id}', [ListaUserController::class, 'destroy']);

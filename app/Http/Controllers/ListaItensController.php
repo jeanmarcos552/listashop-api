@@ -2,12 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Itens;
 use App\Models\ItensLista;
 use App\Models\Lista;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ListaItensController extends Controller
 {
+    public function showByStatus($id, Request $request)
+    {
+        $inputs = $request->validate([
+            'status' => 'required',
+        ]);
+
+        return Lista::find($id)
+            ->itens()
+            ->where("status", "=", $inputs["status"])
+            ->get();
+    }
+
     public function addItem(Request $request)
     {
         $inputs = $request->validate([
