@@ -12,6 +12,7 @@ class Itens extends Model
     protected $fillable = [
         'name',
         'ativo',
+        'un',
         'qty',
         'status'
     ];

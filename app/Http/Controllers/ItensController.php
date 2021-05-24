@@ -30,6 +30,7 @@ class ItensController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'un' => 'required',
         ]);
 
         return Itens::create($request->all());
