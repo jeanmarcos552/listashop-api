@@ -80,7 +80,8 @@ class ItensController extends Controller
         $keys = $request->keys();
         foreach ($keys as $key) {
             $query->where(function ($q) use ($request, $key) {
-                return $q->where($key, 'iLIKE', "%{$request->query($key)}%");
+                $value = $request->query($key);
+                return $q->whereRaw("unaccent($key) iLIKE unaccent('%" . $value . "%')");
             });
         }
 
