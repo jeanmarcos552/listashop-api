@@ -21,7 +21,7 @@ class ListaController extends Controller
             ->lista()
             ->with('user', 'itens')
             ->where("ativo", "=", true)
-            ->paginate(10);
+            ->orderBy('created_at', 'desc')->paginate(10);
     }
 
     /**
@@ -48,14 +48,34 @@ class ListaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        $lista = Lista::with('user', 'itens')
-            ->where('id', $id)
-            ->where('ativo', true)
-            ->orderBy('name', 'DESC')->get();
+        $output = [];
 
-        return isset($lista[0]) ? $lista[0] : ["message" => "Nenhuma lista com o id: $id"];
+        $lista = Lista::find($id);
+        $output = $lista;
+        $user = $lista->user()->orderBy('name', 'desc')->get();
+        $output['user'] = $user;
+
+        $itens = $lista->itens();
+        if ($request->has("itens")) {
+            $itens->where("status", "=", $request->get('itens'));
+        }
+
+        if ($request->has("order")) {
+            $itens->orderBy('name',  $request->get('order'));
+        } else {
+            $itens->orderBy('name', 'DESC');
+        }
+
+        $output['itens'] = $itens->get();
+
+        $output['info'] = [
+            "user" => $user->count(),
+            "itens" => $itens->count(),
+        ];
+
+        return $output;
     }
 
     /**
