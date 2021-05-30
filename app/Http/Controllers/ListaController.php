@@ -103,15 +103,8 @@ class ListaController extends Controller
         $lista = Lista::find($id);
 
         if ($lista) {
-            $listas = $lista->with('user', 'itens')->get()[0];
-
-            if (count($listas->user) > 0) {
-                foreach ($listas->user as $user) {
-                    User::find($user->id)->lista()->detach();
-                }
-            }
-
             $lista->itens()->detach();
+            $lista->user()->detach();
             return $lista->delete($id);
         }
 
