@@ -26,7 +26,7 @@ class ListaUserController extends Controller
         if ($usuario) {
             if (!$lista->user()->where('id', "=", $usuario->id)->exists()) {
                 $lista->user()->attach($usuario->id);
-                return response(null, 201);
+                return response(["message" => "Compartilhada com sucesso!"], 201);
             } else {
                 return response(["message" => "usuário já tem permisão para editar a lista"], 403);
             }
