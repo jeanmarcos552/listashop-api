@@ -36,10 +36,17 @@ class ListaItensController extends Controller
             return response(["message" => "Voce não tem permisão para adicionar itens a essa lista!"], 403);
         }
 
-        $itensId = [];
-        foreach ($inputs['itens'] as $item) {
-            if (!$lista->itens()->where('id', $item)->exists()) {
-                $itensId[] = $item;
+
+        if (isset($inputs['itens'][0])) {
+            $itensId = [];
+            foreach ($inputs['itens'] as $item) {
+                if (!$lista->itens()->where('id', $item)->exists()) {
+                    $itensId[] = $item;
+                }
+            }
+        } else {
+            if (!$lista->itens()->where('id', $inputs['itens'])->exists()) {
+                $itensId[] = $inputs['itens'];
             }
         }
 
