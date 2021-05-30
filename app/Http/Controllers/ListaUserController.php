@@ -13,26 +13,33 @@ class ListaUserController extends Controller
      */
     public function store(Request $request)
     {
-        $inputs = $request->validate([
+        $input = $request->validate([
             'lista' => 'required',
             'user' => 'required',
         ]);
 
-        $lista = Lista::find($inputs['lista']);
+        $lista = Lista::find($input['lista']);
+        if (!$lista) return response(["message" => "lista não encontrada"], 403);
 
+        $usuario = User::where("email", "=", $input['user'])->first();
 
-        if (!$lista->user()->where('id', $inputs['user'])->exists()) {
-            $lista->user()->attach($inputs['user']);
-            return response(null, 201);
+        if ($usuario) {
+            if (!$lista->user()->where('id', "=", $usuario->id)->exists()) {
+                $lista->user()->attach($usuario->id);
+                return response(null, 201);
+            } else {
+                return response(["message" => "usuário já tem permisão para editar a lista"], 403);
+            }
         } else {
-            return response(["message" => "usuário já tem permisão para editar a lista"], 403);
+            return ["message" => "Foi enviado um email para: $input[user]"];
         }
     }
 
     /**
      * Remove usuario
      */
-    public function destroy($id, Request $request) {
+    public function destroy($id, Request $request)
+    {
 
         $inputs = $request->validate([
             "user" => "required",
