@@ -32,14 +32,16 @@ class ListaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $input = $request->validate([
             'name' => 'required',
+            'category_id' => 'required',
         ]);
-        $lista = Lista::create($request->all());
+        $input['created_by'] = auth()->user()->id;
+        $lista = Lista::create($input);
 
         // adicionar permisão a lista
         $lista->user()->attach(auth()->user()->id);
-        return $lista;
+        return $lista->with("category")->get();
     }
 
     /**
@@ -68,7 +70,9 @@ class ListaController extends Controller
             $itens->orderBy('name', 'DESC');
         }
 
+
         $output['itens'] = $itens->get();
+        $output['category'] = $lista->category()->get();
 
         $output['info'] = [
             "user" => $user->count(),

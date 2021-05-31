@@ -11,16 +11,18 @@ class Lista extends Model
 
     protected $fillable = [
         'name',
+        'created_by',
+        'category_id',
     ];
 
     public function itens()
     {
         return $this->belongsToMany(Itens::class, 'itens_listas')
-        ->withPivot([
-            'qty',
-            'value',
-            'status'
-        ]);
+            ->withPivot([
+                'qty',
+                'value',
+                'status'
+            ]);
     }
 
     public function user()
@@ -28,4 +30,8 @@ class Lista extends Model
         return $this->belongsToMany(User::class, 'lista_users');
     }
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

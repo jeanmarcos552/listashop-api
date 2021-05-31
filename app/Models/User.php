@@ -43,7 +43,8 @@ class User extends Authenticatable
     ];
 
 
-    public function roles() {
+    public function roles()
+    {
         return $this->belongsToMany(Role::class, 'role_users');
     }
 
@@ -52,4 +53,8 @@ class User extends Authenticatable
         return $this->belongsToMany(Lista::class, 'lista_users');
     }
 
+    public function notifications()
+    {
+        return $this->hasOne(Notifications::class, 'user_receiver', 'id');
+    }
 }

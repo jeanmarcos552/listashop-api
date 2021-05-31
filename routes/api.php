@@ -5,6 +5,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ListaController;
 use App\Http\Controllers\ListaUserController;
 use App\Http\Controllers\ListaItensController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\NotificationsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -38,13 +40,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('itens/{id}', [ItensController::class, 'show']);
     Route::get('search/itens', [ItensController::class, 'search']);
 
-
-
-
     Route::post('itens', [ItensController::class, 'store']);
     Route::put('itens/{id}', [ItensController::class, 'update']);
     Route::delete('itens/{id}', [ItensController::class, 'destroy']);
-    // Route::get('itens/search', [ItensController::class, 'searchs']);
 
     // LISTA
     Route::post('lista', [ListaController::class, 'store']);
@@ -59,4 +57,17 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('lista', [ListaController::class, 'index']);
     Route::get('lista/{id}', [ListaController::class, 'show']);
     Route::get('lista/search/{name}', [ListaController::class, 'search']);
+
+    // Categorias
+    Route::get('category', [CategoryController::class, 'index']);
+    Route::get('category/{id}', [CategoryController::class, 'show']);
+
+    // Notifications
+    Route::get('notifications', [NotificationsController::class, 'index']);
+    Route::post('notifications', [NotificationsController::class, 'store']);
+    Route::get('notifications/{id}', [NotificationsController::class, 'show']);
+    Route::put('notifications/{id}', [NotificationsController::class, 'update']);
+    Route::put('notifications/{id}', [NotificationsController::class, 'destroy']);
+
+
 });
