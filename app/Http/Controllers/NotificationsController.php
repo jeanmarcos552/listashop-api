@@ -36,6 +36,10 @@ class NotificationsController extends Controller
             'lista' => 'required',
         ]);
 
+        $usuario = User::where("email", "=", $input['user_receiver'])->first();
+
+        $input['user_receiver'] = $usuario->id;
+    
         return Notifications::create($input);
     }
 
