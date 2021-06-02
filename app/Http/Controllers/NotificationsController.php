@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\Notifications\SendNotification;
 use App\Models\Notifications;
 use App\Models\User;
+use BeyondCode\LaravelWebSockets\Dashboard\Http\Controllers\SendMessage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Event;
 
 class NotificationsController extends Controller
 {
@@ -39,8 +42,12 @@ class NotificationsController extends Controller
         $usuario = User::where("email", "=", $input['user_receiver'])->first();
 
         $input['user_receiver'] = $usuario->id;
-    
-        return Notifications::create($input);
+
+        $notifications = Notifications::create($input);
+
+        Event::dispatch(new SendNotification($input, $input['user_receiver']));
+
+        return $notifications;
     }
 
     /**
