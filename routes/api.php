@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Categorias
     Route::get('category', [CategoryController::class, 'index']);
+    Route::POST('category', [CategoryController::class, 'store']);
     Route::get('category/{id}', [CategoryController::class, 'show']);
 
     // Notifications
@@ -68,6 +69,4 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('notifications/{id}', [NotificationsController::class, 'show']);
     Route::put('notifications/{id}', [NotificationsController::class, 'update']);
     Route::put('notifications/{id}', [NotificationsController::class, 'destroy']);
-
-
 });

@@ -1,27 +1,29 @@
 version: "3"
 
 services:
-  web:
+  listashop:
     restart: always
     build: .
     volumes:
       - ./:/var/www/
     depends_on:
       - db
-      - listashop-api-redis
+      - redis
   db:
     image: postgres
     restart: always
     volumes:
       - "./.docker/db:/var/lib/postgres"
     environment:
-      POSTGRES_PASSWORD: "Postgres2022!"
+    environment:
+      POSTGRES_PASSWORD: Postgres2022!
+      POSTGRES_DB: listashop-api
     ports:
       - "5432:5432"
     networks:
       - postgres-network
 
-  listashop-api-nginx:
+  web:
     image: nginx
     volumes:
       - ./:/var/www
@@ -30,9 +32,9 @@ services:
     build: ./.docker/nginx
 
     depends_on:
-      - web
+      - listashop
 
-  listashop-api-redis:
+  redis:
     image: redis:alpine
     expose:
       - 6379

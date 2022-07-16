@@ -27,4 +27,4 @@ EXPOSE 9000
 
 ENTRYPOINT ["php-fpm"]
 
-#docker-compose exec listashop-api bash
+#docker-compose exec listashop bash

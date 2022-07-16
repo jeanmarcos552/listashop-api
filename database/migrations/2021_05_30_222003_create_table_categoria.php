@@ -17,7 +17,7 @@ class CreateTableCategoria extends Migration
             $table->id();
             $table->string("name");
             $table->boolean("ativo")->default(1);
-            $table->bigInteger("cat_pai")->unsigned();
+            $table->bigInteger("cat_pai")->unsigned()->nullable();
             $table->timestamps();
 
             $table->foreign("cat_pai")->references("id")->on("categories")->delete("cascate");
