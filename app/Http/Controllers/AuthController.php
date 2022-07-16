@@ -61,10 +61,10 @@ class AuthController extends Controller
 
     public function logout()
     {
-        auth()->user()->tokens()->delete();
+        Auth::user()->tokens->each(function ($token, $key) {
+            $token->delete();
+        });
 
-        return [
-            'message' => 'Deslogado'
-        ];
+        return response()->json('Deslogado');
     }
 }
