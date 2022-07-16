@@ -32,6 +32,7 @@ class ListaController extends Controller
      */
     public function store(Request $request)
     {
+
         $input = $request->validate([
             'name' => 'required',
             'category_id' => 'required',
@@ -41,7 +42,8 @@ class ListaController extends Controller
 
         // adicionar permisão a lista
         $lista->user()->attach(auth()->user()->id);
-        return $lista->with("category")->get();
+
+        return $lista->where("id", $lista->id)->with("category")->first();
     }
 
     /**
@@ -93,7 +95,7 @@ class ListaController extends Controller
     {
         $item = Lista::find($id);
         $item->update($request->all());
-        return $item;
+        return $item->where("id", $id)->with("category")->first();;
     }
 
     /**

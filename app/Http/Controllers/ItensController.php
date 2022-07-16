@@ -29,12 +29,13 @@ class ItensController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'un' => 'required',
+            "name" => "required",
+            "un" => "required|string|max:4"
         ]);
 
         return Itens::create($request->all());
     }
+
 
     /**
      * Display the specified resource.

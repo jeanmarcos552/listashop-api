@@ -38,15 +38,11 @@ class ListaUserController extends Controller
     /**
      * Remove usuario
      */
-    public function destroy($id, Request $request)
+    public function destroy($lista_id, $user_id, Request $request)
     {
 
-        $inputs = $request->validate([
-            "user" => "required",
-        ]);
-
-        $user = User::find($inputs["user"]);
-        $lista = Lista::find($id);
+        $user = User::find($user_id);
+        $lista = Lista::find($lista_id);
 
         return $lista->user()->detach($user->id);
     }

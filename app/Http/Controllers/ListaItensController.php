@@ -72,26 +72,16 @@ class ListaItensController extends Controller
     public function removeItem(Request $request)
     {
         $lista = new ItensLista();
-        $item = $lista->where(
-            "itens_id",
-            $request->get('item_id')
-        )
+        $item = $lista->where("itens_id", $request->get('item_id'))
             ->where("lista_id", $request->get('lista'));
         return $item->delete();
     }
 
-    public function updateItem(Request $request)
+    public function updateItem($lista_id, $item_id, Request $request)
     {
-        $inputs = $request->validate([
-            'lista_id' => 'required',
-            'itens_id' => 'required',
-        ]);
 
-        $lista = new ItensLista();
-
-        $item = $lista
-            ->where("itens_id", $inputs['itens_id'])
-            ->where("lista_id", $inputs['lista_id'])->update($request->all());
+        $item = ItensLista::where("itens_id", $item_id)
+            ->where("lista_id", $lista_id)->update($request->all());
         return $item;
     }
 }
