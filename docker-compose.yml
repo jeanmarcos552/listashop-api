@@ -4,6 +4,8 @@ services:
   listashop:
     restart: always
     build: .
+    ports:
+      - "6001:6001"
     volumes:
       - ./:/var/www/
     depends_on:
