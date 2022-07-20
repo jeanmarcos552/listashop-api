@@ -43,7 +43,11 @@ class ListaController extends Controller
         // adicionar permisão a lista
         $lista->user()->attach(auth()->user()->id);
 
-        return $lista->where("id", $lista->id)->with("category")->first();
+        return User::find(auth()->user()->id)
+            ->lista()
+            ->with('user', 'itens')
+            ->where("id", $lista->id)
+            ->first();
     }
 
     /**
@@ -57,6 +61,7 @@ class ListaController extends Controller
         $output = [];
 
         $lista = Lista::find($id);
+        if (!$lista) return response("Lista nao encontrada!", 404);
         $output = $lista;
         $user = $lista->user()->orderBy('name', 'desc')->get();
         $output['user'] = $user;
@@ -111,9 +116,14 @@ class ListaController extends Controller
         if ($lista) {
             $lista->itens()->detach();
             $lista->user()->detach();
-            return $lista->delete($id);
+            $isDelete = $lista->delete($id);
+
+            if ($isDelete) {
+                return  response("Lista foi deletada!", 201);
+            }
+            return  response("Não foi possível deletar a Lista!", 403);
         }
 
-        return ["code" => 403, "message" => "nenhuma lista encontrada"];
+        return  response("nenhuma lista encontrada", 404);
     }
 }
