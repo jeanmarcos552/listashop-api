@@ -35,6 +35,7 @@ Route::post('login', [AuthController::class, 'login']);
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('logout', [AuthController::class, 'logout']);
 
+    // Items
     Route::get('itens', [ItensController::class, 'index']);
     Route::get('itens/{id}', [ItensController::class, 'show']);
     Route::get('itens-search', [ItensController::class, 'search']);
@@ -49,11 +50,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::delete('lista/{id}', [ListaController::class, 'destroy']);
     Route::get('lista/{id}', [ListaController::class, 'show']);
 
+    // ItemsLista
     Route::post('addItem', [ListaItensController::class, 'addItem']); //addItem
-    Route::delete('removeItem', [ListaItensController::class, 'removeItem']);
+    Route::delete('removeItem/{lista_id}/{item_id}', [ListaItensController::class, 'removeItem']);
     Route::get('itensLista/{id}', [ListaItensController::class, 'showByStatus']);
     Route::put('updateItem/{lista_id}/{item_id}', [ListaItensController::class, 'updateItem']);
 
+    // Lista User
     Route::post('addUserToList', [ListaUserController::class, 'store']);
     Route::delete('removeUserToList/{lista_id}/{user_id}', [ListaUserController::class, 'destroy']);
 

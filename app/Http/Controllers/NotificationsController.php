@@ -43,7 +43,7 @@ class NotificationsController extends Controller
 
         $input['user_receiver'] = $usuario->id;
 
-        event(new SendNotification($input, $input['user_receiver']));
+        // event(new SendNotification($input, $input['user_receiver']));
 
         $notifications = Notifications::create($input);
 

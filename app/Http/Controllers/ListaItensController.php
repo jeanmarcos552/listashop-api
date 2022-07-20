@@ -69,12 +69,19 @@ class ListaItensController extends Controller
         return true;
     }
 
-    public function removeItem(Request $request)
+    public function removeItem($lista_id, $item_id)
     {
         $lista = new ItensLista();
-        $item = $lista->where("itens_id", $request->get('item_id'))
-            ->where("lista_id", $request->get('lista'));
-        return $item->delete();
+        $item = $lista->where("itens_id", $item_id)
+            ->where("lista_id", $lista_id);
+
+        if (!$item->exists())  return response("Item não existe nessa lista!", 404);
+
+        $isDeleted = $item->delete();
+
+        if ($isDeleted) return response("Deletado com sucesso!", 201);
+
+        return response("Erro ao Deletar!", 500);
     }
 
     public function updateItem($lista_id, $item_id, Request $request)
