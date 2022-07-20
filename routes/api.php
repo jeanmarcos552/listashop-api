@@ -7,7 +7,6 @@ use App\Http\Controllers\ListaUserController;
 use App\Http\Controllers\ListaItensController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\NotificationsController;
-use App\Models\Itens;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

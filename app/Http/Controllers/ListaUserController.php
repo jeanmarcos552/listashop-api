@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lista;
+use App\Models\Notifications;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,6 +17,7 @@ class ListaUserController extends Controller
         $input = $request->validate([
             'lista' => 'required',
             'user' => 'required',
+            'notification_id' => 'required'
         ]);
 
         $lista = Lista::find($input['lista']);
@@ -26,12 +28,16 @@ class ListaUserController extends Controller
         if ($usuario) {
             if (!$lista->user()->where('id', "=", $usuario->id)->exists()) {
                 $lista->user()->attach($usuario->id);
-                return response(["message" => "Compartilhada com sucesso!"], 201);
+
+                $notification = Notifications::find($input['notification_id']);
+                $notification->update(["status", true]);
+
+                return response("Compartilhada com sucesso!", 201);
             } else {
-                return response(["message" => "usuário já tem permisão para editar a lista"], 403);
+                return response("usuário já tem permisão para editar a lista", 403);
             }
         } else {
-            return ["message" => "Foi enviado um email para: $input[user]"];
+            return response("Foi enviado um email para: $input[user]");
         }
     }
 

@@ -21,6 +21,7 @@ class NotificationsController extends Controller
         return User::find(auth()->user()->id)
             ->notifications()
             ->with("user_send", "user_receiver", "lista")
+            ->where("status", false)
             ->paginate(10);
     }
 
