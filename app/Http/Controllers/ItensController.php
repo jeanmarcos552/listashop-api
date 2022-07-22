@@ -33,7 +33,13 @@ class ItensController extends Controller
             "un" => "required|string|max:4"
         ]);
 
-        return Itens::create($request->all());
+        $is_created = Itens::create($request->all());
+
+        if ($is_created) {
+            return response("Salvo!", 200);
+        }
+
+        return response("Erro ao salvar!", 403);
     }
 
 
